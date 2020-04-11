@@ -21,6 +21,8 @@ This is a project I'm building to gain more experience in React and Electron
     This groups same-priced products together, cutting back on the number of inputs required for the user.
 
 ### Next Steps
+* Create a Main Page - this will likely be the form for creating a pricing request spreadsheet, since 
+  that is what the end user will be using the most!
 * Add one final sub-group for Retail Vending Codes
   * This feature will allow someone to map all packages to specific price points with a custom name.
     When this is done, the user will be able to enter prices with just two inputs
