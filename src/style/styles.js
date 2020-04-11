@@ -1,0 +1,83 @@
+import styled from 'styled-components';
+import {Image, Row, Col, Button, Table} from 'react-bootstrap';
+
+
+const RyanLogo = styled(Image)`
+    height: 50px;
+    width: 50px;
+`;
+
+const Pad25 = styled.div`
+    padding: 25px;
+    background: #282c34;
+    color: white;
+`;
+
+
+const FormRow = styled(Row)`
+    justify-content: center;
+`;
+
+const FormCol = styled(Col)`
+    flex-grow: initial;
+    line-height: 52px;
+    margin: 2px;
+    padding: 0 !important;
+`;
+
+
+const FormButton = styled(Button)`
+    display: block !important;
+`;
+
+
+const FlexOnYou = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+`;
+
+const FlexApart = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+const Flex = styled.div`
+    display:flex;
+    flex-wrap: wrap;
+    align-content: flex-start !important;
+    align-items: flex-start !important; 
+    justify-content: flex-start !important;
+    max-width: 1000px;
+`;
+
+const ComboTable = styled(Table)`
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 50% !important;
+    width: auto;
+`;
+
+const Mg25 = styled.div`
+    margin-top: 25px;
+    margin-bottom: 25px;
+`;
+
+// const DNDBox = styled.div`
+//     min-height: 
+// `;
+
+// .row {
+//     justify-content: center;
+//   }
+  
+//   .col { 
+//     flex-grow: initial;
+//     line-height: 52px;
+//     margin: 2px;
+//     padding: 0 !important;
+//   }
+
+
+
+
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25};
