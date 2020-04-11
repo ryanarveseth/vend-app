@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import {Button} from 'react-bootstrap';
+import {Button, Alert} from 'react-bootstrap';
 import {FlexOnYou, Pad25, FlexApart, Flex, Mg25} from '../../style/styles';
 import DraggableCard from './DraggableCard';
 import {Pencil, XCircleFill, Check} from 'react-bootstrap-icons';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
+
 
 const reorder = (list, startIndex, endIndex) => {
     if (list.combos) {
@@ -99,15 +100,30 @@ const Grouping = () => {
 
     const [combos, setCombos] = useState([]);
     const [fullCombosCopy, setFullCombosCopy] = useState([]);
+    const [gotCombos, setGotCombos] = useState(false);
+    const [gotGroups, setGotGroups] = useState(false);
+    const [saveError, setSaveError] = useState(false);
 
     const [groups, setGroups] = useState(
         [
             {
                 'name': 'New-Group',
-                'combos': []
+                'combos': [],
+                'rename': false
             }
         ]
     );
+
+    const saveGroupChanges = (groups) => {
+
+        console.log('groups:',groups);
+
+        if (groups.filter((group) => group.name === '' || group.name === ' ' || group.rename).length > 0) {
+            setSaveError(true);
+        }
+        ipcRenderer.send('set-groupings', groups);
+        setSaveError(false);
+    };
 
     const createNewGroup = () => {
         let groupCopy = Array.from(groups);
@@ -148,16 +164,13 @@ const Grouping = () => {
         setGroups(groupCopy);    
     }
 
-    const [gotCombos, setGotCombos] = useState(false);
-    const [gotGroups, setGotGroups] = useState(false);
-
     if (!gotCombos) {
         ipcRenderer.send('get-combos');
         setGotCombos(true);
     }
 
     if (!gotGroups) {
-        ipcRenderer.send('get-groups');
+        ipcRenderer.send('get-groupings');
         setGotGroups(true);
     }
 
@@ -166,9 +179,10 @@ const Grouping = () => {
     ipcRenderer.on('combos', (event, {combos}) => {
         setCombos(combos);
     });
+
     // Now listen for group changes
-    ipcRenderer.on('groups', (event, {savedGroups}) => {
-        setGroups(savedGroups);
+    ipcRenderer.on('groups', (event, {groupings}) => {
+        setGroups(groupings);
     });
 
 
@@ -258,14 +272,28 @@ const Grouping = () => {
         <>
             <Pad25>
                 <Button variant="outline-success" onClick={createNewGroup}>Create New Group</Button>
+                <div>&nbsp;&nbsp;&nbsp;</div>
+                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>Save Changes</Button>
+                
             </Pad25>
+            { saveError && 
+                <div>
+                    <Alert variant="danger" onClose={() => setSaveError(false)} dismissible>
+                        <Alert.Heading>Hmm, there must have been an issue when saving your changes.</Alert.Heading>
+                        <p>
+                            Be sure to check all of your group names, and make sure you're not currently editing them! 
+                            (There should not be a green check next to any of them, that indicates you're currently editing it!)
+                        </p>
+                    </Alert>
+                </div>
+            }
             <DragDropContext onDragEnd={onDragEnd}>
                 <FlexOnYou>
                     {/* Here's our main list. This will hold all items in the beginning! */}
                     <div className={'main-groupings'}>
                         <h4>All Package Combos ({combos.length})</h4>
                         <Mg25 className="input-group">
-                            <input id="filteredInput" type="text" class="form-control" placeholder="Filter" onChange={filterComboList}/>
+                            <input id="filteredInput" type="text" className="form-control" placeholder="Filter" onChange={filterComboList}/>
                         </Mg25>
                         <Droppable droppableId="droppable">
                             {(provided, snapshot) => (

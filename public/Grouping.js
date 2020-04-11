@@ -4,7 +4,8 @@ const Store = require('electron-store');
 const defaultGrouping = [
     {
         'name': 'New Group',
-        'combos': []
+        'combos': [],
+        'rename': false
     }
 ];
 

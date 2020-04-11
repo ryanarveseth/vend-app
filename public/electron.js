@@ -12,6 +12,9 @@ require('electron-reload')(__dirname);
 const Combination = require('./Combination');
 const comboData = new Combination();
 
+const Grouping = require('./Grouping');
+const groupData = new Grouping();
+
 
 let mainWindow;
 
@@ -23,11 +26,15 @@ function main() {
     mainWindow.on('closed', () => mainWindow = null);
 
     mainWindow.once('show', () => {
-        mainWindow.send('combos', comboData.getCombos());
+
+        const combos = comboData.getCombos();
+        const groups = groupData.getGroupings();
+
+        mainWindow.send('combos', combos);
+        mainWindow.send('groups', groups);
     });
 
 }
-
 
 ipcMain.on('add-combo', (event, combo) => {
     const updatedCombos = comboData.addCombo(combo);
@@ -40,9 +47,19 @@ ipcMain.on('add-combo', (event, combo) => {
   });
 
   ipcMain.on('get-combos', () => {
-    mainWindow.send('combos', comboData.getCombos());
+    const combos = comboData.getCombos();
+    mainWindow.send('combos', combos);
   });
 
+  ipcMain.on('set-groupings', (event, groups) => {
+    const updatedGroups = groupData.setGroupings(groups);
+    mainWindow.send('groups', updatedGroups);
+  });
+
+  ipcMain.on('get-groupings', () => {
+    const groups = groupData.getGroupings();
+    mainWindow.send('groups', groups);
+  });
 
 app.on('ready', main);
 

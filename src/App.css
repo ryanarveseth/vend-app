@@ -219,7 +219,7 @@ body {
 .title-input {
   background: transparent;
   border: none;
-  color: white;
+  color: rgb(150,150,150);
   font-size: 1.5rem;
   font-weight: 500;
   width: 250px;
