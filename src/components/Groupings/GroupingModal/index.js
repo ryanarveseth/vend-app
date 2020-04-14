@@ -63,10 +63,8 @@ const GroupingModal = (props) => {
         );
 
         props.setGroups(items);
+        props.setChangesMade(true);
     };
-
-
-
 
     return (
         <Light>

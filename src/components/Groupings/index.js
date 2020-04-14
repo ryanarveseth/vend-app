@@ -3,7 +3,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {Button, Alert} from 'react-bootstrap';
 import {FlexOnYou, Pad25, FlexApart, Flex, Mg25, Pad25W} from '../../style/styles';
 import DraggableCard from './DraggableCard';
-import {Pencil, XCircleFill, Check} from 'react-bootstrap-icons';
+import {Pencil, Trash, Check, CircleFill} from 'react-bootstrap-icons';
 import Spacing from '../Spacing';
 import HAccordion from '../HAccorion';
 import Strings from '../../Strings';
@@ -109,6 +109,7 @@ const Grouping = () => {
     const [gotGroups, setGotGroups] = useState(false);
     const [saveError, setSaveError] = useState(false);
     const [priorityModalShow, setPriorityModalShow] = useState(false);
+    const [changesMade, setChangesMade] = useState(false);
 
     const [groups, setGroups] = useState(
         [
@@ -140,6 +141,7 @@ const Grouping = () => {
         });
 
         setGroups(groupCopy);
+        setChangesMade(true);
     };
 
 
@@ -148,6 +150,7 @@ const Grouping = () => {
         groupCopy.splice(i, 1);
 
         setGroups(groupCopy);
+        setChangesMade(true);
     } 
 
     const renameGroup = (newName, groupIndex) => {
@@ -158,6 +161,7 @@ const Grouping = () => {
         groupCopy[groupIndex].name = newName;
         groupCopy[groupIndex].rename = false;
         setGroups(groupCopy);
+        setChangesMade(true);
     }
 
     const startEditGroupName = (groupIndex) => {
@@ -166,7 +170,8 @@ const Grouping = () => {
         groupCopy[groupIndex].name = '';
         groupCopy[groupIndex].rename = true;
 
-        setGroups(groupCopy);    
+        setGroups(groupCopy); 
+        setChangesMade(true);   
     }
 
     if (!gotCombos) {
@@ -237,6 +242,7 @@ const Grouping = () => {
                 let dropperIndex = parseInt(destination.droppableId.match(/\d+/g)[0]);
                 groups[dropperIndex].combos = items || [];
                 setGroups(groups);
+                setChangesMade(true);
             }
         } else {
             const result = move(
@@ -269,6 +275,7 @@ const Grouping = () => {
 
             }
             setGroups(groups);
+            setChangesMade(true);
         }
     };
 
@@ -277,13 +284,14 @@ const Grouping = () => {
             <GroupingModal show={priorityModalShow} 
                            onHide={() => setPriorityModalShow(false)}
                            groups={groups}
-                           setGroups={setGroups}/>
+                           setGroups={setGroups}
+                           setChangesMade={setChangesMade}/>
             <Pad25>
                 <Button variant="outline-success" onClick={createNewGroup}>{Strings.createNewGroup}</Button>
                 <Spacing/>
                 <Button variant="outline-light" onClick={() => setPriorityModalShow(true)}>{Strings.showPriorityModal}</Button>
                 <Spacing/>
-                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>{Strings.saveChanges}</Button>
+                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>{Strings.saveChanges} {changesMade && <CircleFill size={8}/>}</Button>
                 <Spacing/>
                 <HAccordion title={Strings.accordionTitle} body={Strings.accordionBody}/>
             </Pad25>
@@ -341,8 +349,8 @@ const Grouping = () => {
                                             }
 
                                             { groups.length !== 1 && 
-                                                (<div className={'icon-group-items'} onClick={() => deleteGroup(i)}>
-                                                    <XCircleFill size={24}/>
+                                                (<div className={'icon-group-items-no-spin-regular'} onClick={() => deleteGroup(i)}>
+                                                    <Trash size={24}/>
                                                 </div>)
                                             }
                                         </FlexApart>

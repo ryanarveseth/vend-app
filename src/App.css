@@ -234,9 +234,14 @@ body {
   color: greenyellow;
 }
 
-.icon-group-items-no-spin svg {
-  transition: 0.75s;
+.icon-group-items-no-spin-regular {
+  margin-top: auto;
+  margin-bottom: auto;
+  height: auto;
+  width: auto;
+  color: white;
 }
+
 
 @keyframes spinning  {
   0% { transform: rotate(0deg); }
