@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {Image, Row, Col, Button, Table} from 'react-bootstrap';
+import {Image, Row, Col, Button, Table, Card} from 'react-bootstrap';
 
 
 const RyanLogo = styled(Image)`
@@ -9,7 +9,7 @@ const RyanLogo = styled(Image)`
 
 const Pad25 = styled.div`
     padding: 25px;
-    background: #282c34;
+    background: #282c34 !important;
     color: white;
 `;
 
@@ -62,22 +62,17 @@ const Mg25 = styled.div`
     margin-bottom: 25px;
 `;
 
-// const DNDBox = styled.div`
-//     min-height: 
-// `;
+const DarkCard = styled(Card)`
+    background-color: #282c34;
+    border: none;
+`;
 
-// .row {
-//     justify-content: center;
-//   }
-  
-//   .col { 
-//     flex-grow: initial;
-//     line-height: 52px;
-//     margin: 2px;
-//     padding: 0 !important;
-//   }
+const Pad25W = styled(Pad25)`
+    width: 500px;
+    display: inline-block;
+    text-align: left;
+`;
 
 
 
-
-export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25};
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W};

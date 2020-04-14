@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {Button} from 'react-bootstrap';
 import {ComboTable} from '../../style/styles';
+import Strings from '../../Strings';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
@@ -35,25 +36,25 @@ const ComboView = () => {
                 <tbody>
                     <tr>
                         <th>
-                            Row
+                            {Strings.row}
                         </th>
                         <th>
-                            Combo Description
+                            {Strings.comboDescription}
                         </th>
                         <th>
-                            Pack Size
+                            {Strings.packSize}
                         </th>
                         <th>
-                            Pack Type
+                            {Strings.packType}
                         </th>
                         <th>
-                            Bevcat
+                            {Strings.bevcat}
                         </th>
                         <th>
-                            Brand
+                            {Strings.brand}
                         </th>
-                        <th>Action
-
+                        <th>
+                            {Strings.action}
                         </th>
                     </tr>
                     {
@@ -80,7 +81,7 @@ const ComboView = () => {
                                     </td>
                                     <td>
                                         <Button variant="outline-danger" onClick={() => {ipcRenderer.send('delete-combo', combo)}}>
-                                            Delete
+                                            {Strings.delete}
                                         </Button>
                                     </td>
                                 </tr>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import {FlexApart, ComboTable} from '../../../style/styles';
+import Strings from '../../../Strings';
 
 
 const DraggableCard = ({index, getItemStyle, item, parentId}) => (
@@ -25,10 +26,10 @@ const DraggableCard = ({index, getItemStyle, item, parentId}) => (
                     <ComboTable variant="dark" striped bordered hover size="sm" className={'xtra-sm'}>
                         <tbody>
                             <tr>
-                                <th>PackSize</th>
-                                <th>PackType</th>
-                                <th>Bevcat</th>
-                                <th>Brand</th>
+                                <th>{Strings.packSize}</th>
+                                <th>{Strings.packType}</th>
+                                <th>{Strings.bevcat}</th>
+                                <th>{Strings.brand}</th>
                             </tr>
                             <tr>
                                 <td>{item.packSize}</td>

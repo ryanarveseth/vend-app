@@ -7,7 +7,6 @@ const AppHeader = () => {
 
         <header className="App-header">
             <Pad25>
-                Swire Coca-Cola Vend App
             </Pad25>
         </header>
 

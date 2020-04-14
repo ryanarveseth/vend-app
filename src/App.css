@@ -237,3 +237,22 @@ body {
 .icon-group-items-no-spin svg {
   transition: 0.75s;
 }
+
+@keyframes spinning  {
+  0% { transform: rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+.spin90 {
+  transition: .25s;
+  transform: rotate(90deg);
+}
+
+.spinR90 {
+  transition: .25s;
+}
+
+.card-header {
+  cursor: pointer;
+}

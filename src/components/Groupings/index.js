@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {Button, Alert} from 'react-bootstrap';
-import {FlexOnYou, Pad25, FlexApart, Flex, Mg25} from '../../style/styles';
+import {FlexOnYou, Pad25, FlexApart, Flex, Mg25, Pad25W} from '../../style/styles';
 import DraggableCard from './DraggableCard';
 import {Pencil, XCircleFill, Check} from 'react-bootstrap-icons';
+import Spacing from '../Spacing';
+import HAccordion from '../HAccorion';
+import Strings from '../../Strings';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
@@ -83,14 +86,15 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     width: `290px`,
     
     // change background colour if dragging
-    background: isDragging ? 'rgb(240, 223, 177)' : 'white',
+    background: isDragging ? 'rgb(230, 230, 230)' : 'white',
 
     // styles we need to apply on draggables
     ...draggableStyle
 });
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'rgb(200,255,200)' : 'lightgrey',
+    transition: '.5s',
+    background: isDraggingOver ? 'rgb(125,125,125)' : 'lightgrey',
     padding: grid,
     color: 'black'
 });
@@ -116,10 +120,9 @@ const Grouping = () => {
 
     const saveGroupChanges = (groups) => {
 
-        console.log('groups:',groups);
-
         if (groups.filter((group) => group.name === '' || group.name === ' ' || group.rename).length > 0) {
             setSaveError(true);
+            return;
         }
         ipcRenderer.send('set-groupings', groups);
         setSaveError(false);
@@ -267,31 +270,31 @@ const Grouping = () => {
             setGroups(groups);
         }
     };
-    
+
     return (
         <>
             <Pad25>
-                <Button variant="outline-success" onClick={createNewGroup}>Create New Group</Button>
-                <div>&nbsp;&nbsp;&nbsp;</div>
-                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>Save Changes</Button>
-                
+                <Button variant="outline-success" onClick={createNewGroup}>{Strings.createNewGroup}</Button>
+                <Spacing/>
+                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>{Strings.saveChanges}</Button>
+                <Spacing/>
+                <HAccordion title={Strings.accordionTitle} body={Strings.accordionBody}/>
             </Pad25>
             { saveError && 
-                <div>
+                <Pad25W>
                     <Alert variant="danger" onClose={() => setSaveError(false)} dismissible>
-                        <Alert.Heading>Hmm, there must have been an issue when saving your changes.</Alert.Heading>
+                        <Alert.Heading>{Strings.saveErrorTitle}<Spacing/>{Strings.frown}</Alert.Heading>
                         <p>
-                            Be sure to check all of your group names, and make sure you're not currently editing them! 
-                            (There should not be a green check next to any of them, that indicates you're currently editing it!)
+                            {Strings.saveErrorBody}
                         </p>
                     </Alert>
-                </div>
+                </Pad25W>
             }
             <DragDropContext onDragEnd={onDragEnd}>
                 <FlexOnYou>
                     {/* Here's our main list. This will hold all items in the beginning! */}
                     <div className={'main-groupings'}>
-                        <h4>All Package Combos ({combos.length})</h4>
+                        <h4>{Strings.allPackageCombos} ({combos.length})</h4>
                         <Mg25 className="input-group">
                             <input id="filteredInput" type="text" className="form-control" placeholder="Filter" onChange={filterComboList}/>
                         </Mg25>
