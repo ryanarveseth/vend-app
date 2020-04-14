@@ -129,6 +129,7 @@ const Grouping = () => {
         }
         ipcRenderer.send('set-groupings', groups);
         setSaveError(false);
+        setChangesMade(false);
     };
 
     const createNewGroup = () => {
