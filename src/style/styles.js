@@ -73,6 +73,19 @@ const Pad25W = styled(Pad25)`
     text-align: left;
 `;
 
+const VFlex = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`;
+
+const PriorityFlex = styled(FlexApart)`
+    color: black;
+`; 
+
+const Light = styled.div`
+    color: black !important;
+`;
 
 
-export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W};
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light};

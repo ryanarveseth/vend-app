@@ -6,7 +6,7 @@ const AppNav = ({handleNavChange}) => (
 
     <Navbar variant="dark">
       <Nav className="mr-auto">
-        <Nav.Link href="#" name="showMainPage" onClick={() => handleNavChange('showMainPage')} className="sliding-box"><div className="white underline">{Strings.Groupings}</div></Nav.Link>
+        <Nav.Link href="#" name="showMainPage" onClick={() => handleNavChange('showMainPage')} className="sliding-box"><div className="white underline">{Strings.Home}</div></Nav.Link>
         <Nav.Link href="#" name="showCombination" onClick={() => handleNavChange('showCombination')} className="sliding-box"><div className="white underline">{Strings.PackageCombos}</div></Nav.Link>
         <Nav.Link href="#" name="showGroupings" onClick={() => handleNavChange('showGroupings')} className="sliding-box"><div className="white underline">{Strings.Groupings}</div></Nav.Link>
         {/* <Nav.Link href="#" name="showRvcPage" onClick={() => handleNavChange('showRvcPage')} className="sliding-box"><div className="white underline">RVC Codes</div></Nav.Link>

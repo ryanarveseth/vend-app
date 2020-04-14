@@ -41,7 +41,7 @@ class Grouping extends Store {
 
     deleteGrouping(grouping) {
         this.groupings = this.groupings.filter(g => 
-            g.bevcat !== grouping.name
+            g.name !== grouping.name
         );
         return this.saveGroupings();
     }
@@ -51,8 +51,24 @@ class Grouping extends Store {
         return this.saveGroupings();
     }
 
-    editCombos(index, newCombos) {
-        this.groupings[index].combos = newCombos || [];
+    deleteCombo(combo) {
+
+        this.groupings = this.groupings.map(g =>
+            (
+                {
+                    'name': g.name,
+                    'combos': 
+                        g.combos.filter(c => 
+                            c.packSize !== combo.packSize &&
+                            c.packType !== combo.packType && 
+                            c.brand !== combo.brand &&
+                            c.bevcat !== combo.bevcat
+                            ) || [],
+                    'rename': g.rename
+                }
+            )
+        );
+
         return this.saveGroupings();
     }
 }

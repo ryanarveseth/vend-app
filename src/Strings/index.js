@@ -25,14 +25,18 @@ const Strings = {
 'addNewCombo': 'Add New Combination',
 
 // Groupings
-'createNewGroup': 'Create New Group',
+'createNewGroup': 'Add New Group',
 'saveChanges': 'Save Changes',
 'allPackageCombos': 'All Package Combos',
-'accordionTitle': 'What\'s the point of groupings?',
+'accordionTitle': 'What\'s the point of these groupings?',
 'accordionBody': 'Groupings can help save time by grouping same-priced vend products. When we group these together, we can significantly cut back on the number of manual pricing entries!',
 'saveErrorBody': 'Try checking all of your group names and make sure you\'re not currently editing one of them!',
 'saveErrorTitle': 'Save Failed.',
-'frown': ':('
+'frown': ':(',
+'sortByPriority': 'Sort Groups by Priority',
+'highestPriority': 'Highest Priority',
+'lowestPriority': 'Lowest Priority',
+'showPriorityModal': 'Change Group Priority (waterfall)'
 
 };
 

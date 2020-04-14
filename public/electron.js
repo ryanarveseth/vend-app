@@ -43,7 +43,11 @@ ipcMain.on('add-combo', (event, combo) => {
 
   ipcMain.on('delete-combo', (event, combo) => {
     const updatedCombos = comboData.deleteCombo(combo);
+
+    const updatedGroups = groupData.deleteCombo(combo);
+
     mainWindow.send('combos', updatedCombos);
+    mainWindow.send('groups', updatedGroups);
   });
 
   ipcMain.on('get-combos', () => {

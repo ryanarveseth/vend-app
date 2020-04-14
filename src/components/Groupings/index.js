@@ -7,6 +7,7 @@ import {Pencil, XCircleFill, Check} from 'react-bootstrap-icons';
 import Spacing from '../Spacing';
 import HAccordion from '../HAccorion';
 import Strings from '../../Strings';
+import GroupingModal from './GroupingModal';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
@@ -107,6 +108,7 @@ const Grouping = () => {
     const [gotCombos, setGotCombos] = useState(false);
     const [gotGroups, setGotGroups] = useState(false);
     const [saveError, setSaveError] = useState(false);
+    const [priorityModalShow, setPriorityModalShow] = useState(false);
 
     const [groups, setGroups] = useState(
         [
@@ -266,15 +268,20 @@ const Grouping = () => {
                 groups[dropper2Index].combos = result[destination.droppableId] || [];
 
             }
-
             setGroups(groups);
         }
     };
 
     return (
         <>
+            <GroupingModal show={priorityModalShow} 
+                           onHide={() => setPriorityModalShow(false)}
+                           groups={groups}
+                           setGroups={setGroups}/>
             <Pad25>
                 <Button variant="outline-success" onClick={createNewGroup}>{Strings.createNewGroup}</Button>
+                <Spacing/>
+                <Button variant="outline-light" onClick={() => setPriorityModalShow(true)}>{Strings.showPriorityModal}</Button>
                 <Spacing/>
                 <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>{Strings.saveChanges}</Button>
                 <Spacing/>

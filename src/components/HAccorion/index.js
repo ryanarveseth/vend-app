@@ -15,7 +15,6 @@ const HAccordion = ({title, body, eventKey, callBack}) => {
     };
 
     return (
-        
         <Pad25W>
             <Accordion>
                 <DarkCard>
