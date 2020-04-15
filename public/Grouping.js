@@ -3,7 +3,6 @@ const Store = require('electron-store');
 // Starts us off with an empty grouping
 const defaultGrouping = [
     {
-        "name": "AHA 16z",
         "combos": [
             {
                 "bevcat": "2",
@@ -13,10 +12,11 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "1",
+        "name": "AHA 16z",
         "rename": false
     },
     {
-        "name": "Body Armor",
         "combos": [
             {
                 "bevcat": "15",
@@ -33,10 +33,11 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "2",
+        "name": "Body Armor",
         "rename": false
     },
     {
-        "name": "JAVA",
         "combos": [
             {
                 "bevcat": "40",
@@ -46,10 +47,11 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "3",
+        "name": "JAVA",
         "rename": false
     },
     {
-        "name": "Monster Reign",
         "combos": [
             {
                 "bevcat": "40",
@@ -59,10 +61,11 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "4",
+        "name": "Monster Reign",
         "rename": false
     },
     {
-        "name": "Full Throttle / NOS",
         "combos": [
             {
                 "bevcat": "40",
@@ -79,10 +82,11 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "5",
+        "name": "Full Throttle / NOS",
         "rename": false
     },
     {
-        "name": "Coke Energy",
         "combos": [
             {
                 "bevcat": "40",
@@ -92,10 +96,11 @@ const defaultGrouping = [
                 "packType": "Z20"
             }
         ],
+        "id": "6",
+        "name": "Coke Energy",
         "rename": false
     },
     {
-        "name": "Gold Peak Tea",
         "combos": [
             {
                 "bevcat": "18",
@@ -105,6 +110,8 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "7",
+        "name": "Gold Peak Tea",
         "rename": false
     },
     {
@@ -124,6 +131,7 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "8",
         "name": "Peace Tea - 15/16z",
         "rename": false
     },
@@ -137,6 +145,7 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "9",
         "name": "Peace Tea - 23z",
         "rename": false
     },
@@ -157,6 +166,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "10",
         "name": "Core Power",
         "rename": false
     },
@@ -170,6 +180,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "11",
         "name": "Zico",
         "rename": false
     },
@@ -190,6 +201,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "12",
         "name": "Smartwater - 700mL",
         "rename": false
     },
@@ -203,6 +215,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "13",
         "name": "Smartwater - 20z",
         "rename": false
     },
@@ -218,7 +231,7 @@ const defaultGrouping = [
             {
                 "bevcat": "15",
                 "brand": "",
-                "description": "12Z Pwd",
+                "description": "12Z Pwd/Body Armor",
                 "packSize": "746",
                 "packType": "018"
             },
@@ -237,6 +250,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "14",
         "name": "Powerade",
         "rename": false
     },
@@ -292,6 +306,7 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "15",
         "name": "Tea (All-Cans)",
         "rename": false
     },
@@ -312,6 +327,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "16",
         "name": "VitaminWater",
         "rename": false
     },
@@ -332,6 +348,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "17",
         "name": "Milk",
         "rename": false
     },
@@ -366,6 +383,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "18",
         "name": "Juice",
         "rename": false
     },
@@ -428,6 +446,7 @@ const defaultGrouping = [
                 "packType": "007"
             }
         ],
+        "id": "19",
         "name": "Cans",
         "rename": false
     },
@@ -504,6 +523,7 @@ const defaultGrouping = [
                 "packType": "029"
             }
         ],
+        "id": "20",
         "name": "Bottles",
         "rename": false
     },
@@ -517,6 +537,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "21",
         "name": "Coffee",
         "rename": false
     },
@@ -565,6 +586,7 @@ const defaultGrouping = [
                 "packType": "018"
             }
         ],
+        "id": "22",
         "name": "Water-Dasani/VW",
         "rename": false
     },
@@ -606,6 +628,7 @@ const defaultGrouping = [
                 "packType": "Z20"
             }
         ],
+        "id": "23",
         "name": "Energy",
         "rename": false
     },
@@ -934,6 +957,7 @@ const defaultGrouping = [
                 "packType": "030"
             }
         ],
+        "id": "24",
         "name": "All",
         "rename": false
     }
@@ -993,7 +1017,7 @@ class Grouping extends Store {
                             c.packType !== combo.packType && 
                             c.brand !== combo.brand &&
                             c.bevcat !== combo.bevcat
-                            ) || [],
+                            ),
                     'rename': g.rename
                 }
             )

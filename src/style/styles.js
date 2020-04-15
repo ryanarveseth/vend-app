@@ -41,6 +41,11 @@ const FlexApart = styled.div`
     justify-content: space-between;
 `;
 
+const FlexCenter = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
 const Flex = styled.div`
     display:flex;
     flex-wrap: wrap;
@@ -94,4 +99,4 @@ const SubTitle = styled.div`
 
 `;
 
-export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light, SubTitle};
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light, SubTitle, FlexCenter};

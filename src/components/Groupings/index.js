@@ -116,7 +116,8 @@ const Grouping = () => {
             {
                 'name': 'New-Group',
                 'combos': [],
-                'rename': false
+                'rename': false,
+                'id': new Date().getTime().toString()
             }
         ]
     );
@@ -138,7 +139,8 @@ const Grouping = () => {
         groupCopy.unshift({
             'name': 'New-Group',
             'combos': [],
-            'rename': false
+            'rename': false,
+            'id': new Date().getTime().toString()
         });
 
         setGroups(groupCopy);

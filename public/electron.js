@@ -19,7 +19,7 @@ const groupData = new Grouping();
 let mainWindow;
 
 function main() {
-    
+
     mainWindow = new BrowserWindow({width: 1400, height: 920, webPreferences: { nodeIntegration: true }});
     //mainWindow.setMenu(null);
     mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);

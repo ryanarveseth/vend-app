@@ -37,7 +37,10 @@ const Strings = {
 'highestPriority': 'Highest Priority',
 'lowestPriority': 'Lowest Priority',
 'showPriorityModal': 'Change Group Priority (waterfall)',
-'dontForgetToSave': '*** Note: Don\'t forget to save after editing!'
+'dontForgetToSave': '*** Note: Don\'t forget to save after editing!',
+'price': 'Price',
+'preview': 'Preview',
+'groupName': 'Group Name'
 
 };
 

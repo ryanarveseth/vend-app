@@ -6,7 +6,7 @@ import NewCombination from './components/NewCombination';
 import ComboView from './components/ComboView';
 import AppNav from './components/AppNav';
 import Groupings from './components/Groupings';
-
+import Home from './components/Home';
 
 const App = () => {
   
@@ -35,7 +35,7 @@ const App = () => {
       <AppNav handleNavChange={handleNavChange}/>
       <AppHeader/>
       
-      { navigation && navigation.showMainPage && (<>TODO: Main Page</>) }
+      { navigation && navigation.showMainPage && (<Home/>) }
       
       { navigation && navigation.showCombination && (<><NewCombination/><ComboView/></>) }
 
