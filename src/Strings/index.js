@@ -36,7 +36,8 @@ const Strings = {
 'sortByPriority': 'Sort Groups by Priority',
 'highestPriority': 'Highest Priority',
 'lowestPriority': 'Lowest Priority',
-'showPriorityModal': 'Change Group Priority (waterfall)'
+'showPriorityModal': 'Change Group Priority (waterfall)',
+'dontForgetToSave': '*** Note: Don\'t forget to save after editing!'
 
 };
 

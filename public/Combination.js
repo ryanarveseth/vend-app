@@ -121,6 +121,27 @@ const defaultProducts = [
         "brand": ""
     },
     {
+        "description": "10z Juice",
+        "packSize": "741",
+        "packType": "018",
+        "bevcat": "7",
+        "brand": ""
+    },
+    {
+        "description": "16.9Z MM ",
+        "packSize": "791",
+        "packType": "018",
+        "bevcat": "17",
+        "brand": ""
+    },
+    {
+        "description": "12Z  MM Juice PET",
+        "packSize": "746",
+        "packType": "018",
+        "bevcat": "7",
+        "brand": ""
+    },
+    {
         "description": "16.9z Dasani",
         "packSize": "791",
         "packType": "018",

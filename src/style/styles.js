@@ -87,5 +87,11 @@ const Light = styled.div`
     color: black !important;
 `;
 
+const SubTitle = styled.div`
+    font-size: 16px;
+    color: rgb(75,75,75);
+    font-weight: bolder;
 
-export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light};
+`;
+
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light, SubTitle};

@@ -135,7 +135,7 @@ const Grouping = () => {
     const createNewGroup = () => {
         let groupCopy = Array.from(groups);
         
-        groupCopy.push({
+        groupCopy.unshift({
             'name': 'New-Group',
             'combos': [],
             'rename': false
@@ -320,7 +320,7 @@ const Grouping = () => {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
                                     {combos.map((item, index) => (
-                                        <DraggableCard parentId={`droppable`} item={item} index={index} getItemStyle={getItemStyle}/>
+                                        <DraggableCard parentId={`droppable`} item={item} index={index} getItemStyle={getItemStyle} showTable/>
                                     ))}
                                     {provided.placeholder}
                                 </div>

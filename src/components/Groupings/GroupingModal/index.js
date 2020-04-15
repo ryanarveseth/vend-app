@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
-import {PriorityFlex, VFlex, Light} from '../../../style/styles';
+import {PriorityFlex, VFlex, Light, SubTitle} from '../../../style/styles';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Spacing from '../../Spacing';
 import {ArrowUp, ArrowDown} from 'react-bootstrap-icons';
@@ -74,9 +74,11 @@ const GroupingModal = (props) => {
             centered
         >
             <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter" className={'light'}>
-                {Strings.sortByPriority}
-            </Modal.Title>
+                <Modal.Title id="contained-modal-title-vcenter" className={'light'}>
+                    {Strings.sortByPriority}
+                    <br/>
+                    <SubTitle>{Strings.dontForgetToSave}</SubTitle>
+                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <PriorityFlex>
@@ -110,7 +112,7 @@ const GroupingModal = (props) => {
                                         provided.draggableProps.style
                                     )}
                                     >
-                                        {index}<Spacing/>{item.name}
+                                        {props.groups.length - index}<Spacing/>{item.name}
                                     </div>
                                 )}
                                 </Draggable>
