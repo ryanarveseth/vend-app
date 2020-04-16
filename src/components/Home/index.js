@@ -111,6 +111,10 @@ const Home = () => {
         setComboPrice(comboPriceCopy);
     }
 
+    const updateGroupPricing = (group, price) => {
+        
+
+    };
 
 
     return (
@@ -132,7 +136,7 @@ const Home = () => {
                                         {g.name}
                                     </LTD>
                                     <td>
-                                        <ITD type='text'/>
+                                        <ITD type='text' onChange={(e) => updateGroupPricing(g, e.target.value)}/>
                                     </td>
                                 </TR>
                             )
