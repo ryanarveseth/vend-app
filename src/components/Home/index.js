@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {FlexCenter} from '../../style/styles';
 import styled from 'styled-components';
 import Strings from '../../Strings';
+import {Button, Row, Col} from 'react-bootstrap';
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
@@ -112,14 +113,52 @@ const Home = () => {
     }
 
     const updateGroupPricing = (group, price) => {
-        
+        price = price * 1;
+        let groupCopy = Array.from(groups);
+        let comboPriceCopy = Array.from(comboPrice);
+        let comboMap = [];
 
+        groupCopy.forEach((g) =>  {
+            if (g.id === group.id) {
+                g.price = price || 0;
+            }
+        });
+
+        groupCopy.forEach((g) => {
+            g.combos.forEach((c) => {
+                if (g.price || g.id === group.id) {
+                    comboMap[c.description + c.packSize + c.packType + c.bevcat + c.brand] = g.price;
+                }
+            });
+        });
+
+        comboPriceCopy.forEach((c) =>{
+           // if (comboMap[c.combo.description + c.combo.packSize + c.combo.packType + c.combo.bevcat + c.combo.brand]) {
+                c.price = comboMap[c.combo.description + c.combo.packSize + c.combo.packType + c.combo.bevcat + c.combo.brand] || 0;
+          //  }
+        });
+
+        setComboPrice(comboPriceCopy);
+        setGroups(groupCopy);
     };
 
 
     return (
         <FlexCenter>
-<Table25>
+            <div>
+                <Row>
+                    <Col>
+                        <Button>Clear</Button>
+                    </Col>
+                </Row>
+                <br/>
+                <Row>
+                    <Col>
+                        <Button>Add Stuff</Button>
+                    </Col>
+                </Row>
+            </div>
+            <Table25>
                 <tbody>
                     <TR>
                         <th colspan='2'>{Strings.preview}</th>

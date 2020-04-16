@@ -288,8 +288,8 @@ body {
 }
 
 .groupIsHovered {
-  background: lightcoral;
+  background: rgb(170,0,0);
 }
 .price-entered {
-  background: lightgreen;
+  background: rgb(100,0,0);
 }
