@@ -170,7 +170,7 @@ const defaultProducts = [
         "brand": ""
     },
     {
-        "description": "12Z Pwd",
+        "description": "12Z Pwd/Body Armor",
         "packSize": "746",
         "packType": "018",
         "bevcat": "15",
@@ -249,13 +249,6 @@ const defaultProducts = [
     {
         "description": "16z PT Body Armor",
         "packSize": "753",
-        "packType": "018",
-        "bevcat": "15",
-        "brand": ""
-    },
-    {
-        "description": "12z PT Body Armor",
-        "packSize": "746",
         "packType": "018",
         "bevcat": "15",
         "brand": ""

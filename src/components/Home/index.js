@@ -50,14 +50,8 @@ const Home = () => {
     }]);
 
     const [gotCombos, setGotCombos] = useState(false);
-    //const [combos, setCombos] = useState([]);
 
-    const [comboPrice, setComboPrice] = useState([
-        // {
-        //     'combo': {},
-        //     'price': 0
-        // }
-    ]);
+    const [comboPrice, setComboPrice] = useState([]);
 
 
     if (!gotCombos) {
@@ -165,7 +159,7 @@ const Home = () => {
                     {
                         comboPrice.map(cp => 
                             (
-                                <TR className={ cp.isInHoveredGroup && 'groupIsHovered'}>
+                                <TR className={ cp.isInHoveredGroup ? 'groupIsHovered' : cp.price > 0 && 'price-entered'}>
                                     <LTD>
                                         {cp.combo.description}
                                     </LTD>

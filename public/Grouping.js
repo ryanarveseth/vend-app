@@ -719,13 +719,6 @@ const defaultGrouping = [
                 "packType": "018"
             },
             {
-                "bevcat": "15",
-                "brand": "",
-                "description": "16z PT Body Armor",
-                "packSize": "753",
-                "packType": "018"
-            },
-            {
                 "bevcat": "5",
                 "brand": "",
                 "description": "Diet Coke Slim Cans Recast",
@@ -1006,16 +999,15 @@ class Grouping extends Store {
     }
 
     deleteCombo(combo) {
-
         this.groupings = this.groupings.map(g =>
             (
                 {
                     'name': g.name,
                     'combos': 
                         g.combos.filter(c => 
-                            c.packSize !== combo.packSize &&
-                            c.packType !== combo.packType && 
-                            c.brand !== combo.brand &&
+                            c.packSize !== combo.packSize ||
+                            c.packType !== combo.packType || 
+                            c.brand !== combo.brand ||
                             c.bevcat !== combo.bevcat
                             ),
                     'rename': g.rename

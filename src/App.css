@@ -290,3 +290,6 @@ body {
 .groupIsHovered {
   background: lightcoral;
 }
+.price-entered {
+  background: lightgreen;
+}
