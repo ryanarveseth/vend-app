@@ -1,33 +1,39 @@
 import React, {useState} from 'react';
-import {FlexCenter} from '../../style/styles';
+import {FlexCenter, Mg20LR, FlexOnYou, Mg6, Centered} from '../../style/styles';
 import styled from 'styled-components';
 import Strings from '../../Strings';
-import {Button, Row, Col} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import ReactDataSheet from 'react-datasheet';
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-datasheet/lib/react-datasheet.css';
+
+
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
 
 const Table25 = styled.table`
-    margin: 25px;
-    border: 4px solid rgb(75, 75, 75);
-    font-size: 12px;
+    margin: 0 20px !important;
+    border: 3px solid rgb(50, 50, 50);
+    font-size: 11px;
+    width: auto;
 `;
 
 const TH = styled.th`
-    padding-left: 8px;
-    padding-right: 8px;
-
+    padding-left: 8px !important;
+    padding-right: 8px !important;
 `;
 
 const TD = styled.td`
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
     border: 1px solid gray;
 `;
 
 const LTD = styled.td`
     padding-left: 8px;
     padding-right: 8px;
+    padding: 0;
     text-align: left;
     border: 1px solid gray;
 `;
@@ -40,7 +46,25 @@ const TR = styled.tr`
 
 const ITD = styled.input`
     width: 50px;
+    height: 100%;
 `;
+
+const NPTD = styled.td`
+    padding: 0;
+`;
+
+
+const arrow_keys_handler = (e) => {
+    switch(e.keyCode){
+        case 37: case 39: case 38:  case 40: // Arrow keys
+        case 32: e.preventDefault(); break; // Space
+        default: break; // do not block other keys
+    }
+};
+
+window.addEventListener("keydown", arrow_keys_handler, false);
+
+const getNum = (n = 0) => (n).toFixed(2);
 
 
 const Home = () => {
@@ -53,6 +77,23 @@ const Home = () => {
     const [gotCombos, setGotCombos] = useState(false);
 
     const [comboPrice, setComboPrice] = useState([]);
+
+    const [loadData, setLoadData] = useState([]);
+    const [customers, setCustomers] = useState([
+        [
+
+        ],
+        [
+          {value: Strings.customerNumbers, readOnly: true}
+        ],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}],[{value: ''}],[{value: ''}],
+        [{value: ''}]
+      ]);
 
 
     if (!gotCombos) {
@@ -67,7 +108,7 @@ const Home = () => {
         let combosAndPrices = [];
 
         comboArray.forEach(c => {
-            combosAndPrices.push({'combo': c, 'price': 0, 'isInHoveredGroup': false});
+            combosAndPrices.push({'combo': c, 'price': getNum(), 'isInHoveredGroup': false});
         });
 
         setComboPrice(combosAndPrices);
@@ -112,6 +153,23 @@ const Home = () => {
         setComboPrice(comboPriceCopy);
     }
 
+
+    const onlyNumbersForYou = (e) => {
+
+        var allowCharCodes = [9, 110, 190, 8, 40, 38, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
+
+        var charCode = (e.which) ? e.which : e.keyCode;
+
+        console.log(e.which, e.keyCode);
+
+        if (allowCharCodes.indexOf(charCode) >= 0) {
+            return true;
+        }
+
+        e.preventDefault();
+        return false;
+    }
+
     const updateGroupPricing = (group, price) => {
         price = price * 1;
         let groupCopy = Array.from(groups);
@@ -120,7 +178,11 @@ const Home = () => {
 
         groupCopy.forEach((g) =>  {
             if (g.id === group.id) {
-                g.price = price || 0;
+                if (isNaN(price)) {
+                    g.price = getNum();
+                } else {
+                    g.price = getNum(price) || getNum();
+                }
             }
         });
 
@@ -133,9 +195,7 @@ const Home = () => {
         });
 
         comboPriceCopy.forEach((c) =>{
-           // if (comboMap[c.combo.description + c.combo.packSize + c.combo.packType + c.combo.bevcat + c.combo.brand]) {
-                c.price = comboMap[c.combo.description + c.combo.packSize + c.combo.packType + c.combo.bevcat + c.combo.brand] || 0;
-          //  }
+                c.price = comboMap[c.combo.description + c.combo.packSize + c.combo.packType + c.combo.bevcat + c.combo.brand] || getNum();
         });
 
         setComboPrice(comboPriceCopy);
@@ -145,24 +205,50 @@ const Home = () => {
 
     return (
         <FlexCenter>
-            <div>
-                <Row>
-                    <Col>
-                        <Button>Clear</Button>
-                    </Col>
-                </Row>
+            <Mg20LR>
+                <FlexOnYou>
+                    <Mg6>
+                        <Button variant="outline-primary">Clear All</Button>
+                    </Mg6>
+                    <Mg6>
+                        <Button variant="outline-primary">{Strings.clearCustomers}</Button>
+                    </Mg6>
+                    <Mg6>
+                        <Button variant="outline-primary">Add Stuff</Button>
+                    </Mg6>
+                </FlexOnYou>
                 <br/>
-                <Row>
-                    <Col>
-                        <Button>Add Stuff</Button>
-                    </Col>
-                </Row>
-            </div>
-            <Table25>
+                <ReactDataSheet
+                    data={customers}
+                    valueRenderer={(cell) => cell.value}
+                    onContextMenu={(e, cell, i, j) => cell.readOnly ? e.preventDefault() : null}
+                    onCellsChanged={(changes, addRows) => {
+                        
+                    const grid = customers.map(row => [...row])
+                    changes.forEach(({cell, row, col, value}) => {
+                        grid[row][col] = {...grid[row][col], value}
+                    })
+
+                    if (addRows) {
+                        addRows.forEach(r => {
+                            if (r.col === 0) {
+                                grid[r.row] = [{value: r.value}]
+                            }
+                        });
+                    }
+
+                    if (grid[grid.length - 1][0].value) {
+                        grid[grid.length] = [{value: ''}];
+
+                    }
+                    setCustomers(grid)
+                    }}
+                />
+            </Mg20LR>
+            
+
+            <Table25 className={'table-striped table table-dark pricing-table hover'}>
                 <tbody>
-                    <TR>
-                        <th colspan='2'>{Strings.preview}</th>
-                    </TR>
                     <TR>
                         <TH>{Strings.groupName}</TH>
                         <TH>{Strings.price}</TH>
@@ -170,13 +256,13 @@ const Home = () => {
                     {
                         groups.map(g => 
                             (
-                                <TR>
-                                    <LTD onMouseEnter={() => mouseEntered(g)} onMouseLeave={() => mouseLeft()}>
+                                <TR onMouseEnter={() => mouseEntered(g)} onMouseLeave={() => mouseLeft()}>
+                                    <LTD className={'padded'}>
                                         {g.name}
                                     </LTD>
-                                    <td>
-                                        <ITD type='text' onChange={(e) => updateGroupPricing(g, e.target.value)}/>
-                                    </td>
+                                    <NPTD>
+                                        <ITD type='text' onChange={(e) => updateGroupPricing(g, e.target.value)} onKeyDown={onlyNumbersForYou}/>
+                                    </NPTD>
                                 </TR>
                             )
                         )   
@@ -186,11 +272,8 @@ const Home = () => {
             </Table25>
 
 
-            <Table25>
+            <Table25 className={'table-striped table table-dark pricing-table hover'}>
                 <tbody>
-                    <TR>
-                        <th colspan='6'>{Strings.preview}</th>
-                    </TR>
                     <TR>
                         <TH>{Strings.comboDescription}</TH>
                         <TH>{Strings.packSize}</TH>
@@ -202,8 +285,8 @@ const Home = () => {
                     {
                         comboPrice.map(cp => 
                             (
-                                <TR className={ cp.isInHoveredGroup ? 'groupIsHovered' : cp.price > 0 && 'price-entered'}>
-                                    <LTD>
+                                <TR className={ cp.isInHoveredGroup ? 'group-is-hovered' : cp.price > 0 ? 'price-entered' : 'pricing-table'}>
+                                    <LTD className={'padded'}>
                                         {cp.combo.description}
                                     </LTD>
                                     <TD>
@@ -219,7 +302,7 @@ const Home = () => {
                                         {cp.combo.brand}
                                     </TD>
                                     <TD>
-                                        {cp.price.toFixed(2)}
+                                        {cp.price}
                                     </TD>
                                 </TR>
                             )

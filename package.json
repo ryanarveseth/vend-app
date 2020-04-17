@@ -23,6 +23,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^1.0.0",
     "react-bootstrap-icons": "^1.0.1-alpha3",
+    "react-datasheet": "^1.4.1",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
     "styled-components": "^5.0.1",

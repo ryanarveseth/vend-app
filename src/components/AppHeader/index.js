@@ -4,11 +4,11 @@ import {Pad25} from '../../style/styles';
 const AppHeader = () => {
 
     return (
-
-        <header className="App-header">
-            <Pad25>
-            </Pad25>
-        </header>
+<></>
+        // <header className="App-header">
+        //     <Pad25>
+        //     </Pad25>
+        // </header>
 
     );
 };

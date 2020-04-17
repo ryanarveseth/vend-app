@@ -6,7 +6,9 @@ const Strings = {
 // Navbar
 'Home': 'Home',
 'PackageCombos': 'Package Combinations',
-'Groupings': 'Groupings',
+'Groupings': 'Group',
+'rvcCodes': 'RVC Codes',
+
 
 // Combos
 'row': 'Row',
@@ -40,7 +42,20 @@ const Strings = {
 'dontForgetToSave': '*** Note: Don\'t forget to save after editing!',
 'price': 'Price',
 'preview': 'Preview',
-'groupName': 'Group Name'
+'groupName': 'Group Name',
+'customerNumbers': 'Customer Numbers',
+
+
+// Home Page
+'clearCustomers': 'Clear Customers',
+'clearAll': 'Clear All',
+'clearPricing': 'Clear Pricing',
+'sendToQueue': 'Send To Load Queue',
+
+
+// RVC Page
+'allGroupings': 'All Groupings'
+
 
 };
 

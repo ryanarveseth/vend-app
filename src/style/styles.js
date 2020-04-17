@@ -13,6 +13,10 @@ const Pad25 = styled.div`
     color: white;
 `;
 
+const Pad25L = styled(Pad25)`
+    text-align: left;
+`;
+
 
 const FormRow = styled(Row)`
     justify-content: center;
@@ -67,6 +71,26 @@ const Mg25 = styled.div`
     margin-bottom: 25px;
 `;
 
+const Mg25All = styled(Mg25)`
+    margin-left: 25px;
+    margin-right: 25px;
+`;
+
+const Mg6 = styled.div`
+    margin-left: 6px;
+    margin-right: 6px;
+`;
+
+const Mg20LR = styled.div`
+    margin: 0 20px !important;
+`;
+
+const Mg4All = styled.div`
+    margin: 2px;
+    padding-top: 8px;
+    background: rgba(0, 0, 0, .25);
+`;
+
 const DarkCard = styled(Card)`
     background-color: #282c34;
     border: none;
@@ -99,4 +123,13 @@ const SubTitle = styled.div`
 
 `;
 
-export {RyanLogo, Pad25, FormCol, FormRow, FormButton, FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, Pad25W, VFlex, PriorityFlex, Light, SubTitle, FlexCenter};
+const Centered = styled.div`
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+`;
+
+export {RyanLogo, Pad25, FormCol, FormRow, FormButton, 
+    FlexOnYou, FlexApart, ComboTable, Flex, Mg25, DarkCard, 
+    Pad25W, VFlex, PriorityFlex, Light, SubTitle, FlexCenter,
+    Mg25All, Pad25L, Mg4All, Mg20LR, Mg6, Centered};

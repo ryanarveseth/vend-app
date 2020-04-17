@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import {Button, Alert} from 'react-bootstrap';
-import {FlexOnYou, Pad25, FlexApart, Flex, Mg25, Pad25W, Mg4All} from '../../style/styles';
+import {FlexOnYou, Pad25, FlexApart, Flex, Pad25W, Mg4All} from '../../style/styles';
 import DraggableCard from './DraggableCard';
 import {Pencil, Trash, Check, CircleFill} from 'react-bootstrap-icons';
 import Spacing from '../Spacing';
 import HAccordion from '../HAccorion';
 import Strings from '../../Strings';
-import GroupingModal from './GroupingModal';
+
 
 const electron = window.require('electron');
 const ipcRenderer  = electron.ipcRenderer;
 
 
 const reorder = (list, startIndex, endIndex) => {
-    if (list.combos) {
-        list = list.combos;
+    if (list.groups) {
+        list = list.groups;
     }
 
     const result = Array.from(list);
@@ -32,10 +32,10 @@ const reorder = (list, startIndex, endIndex) => {
 const move = (source, destination, droppableSource, droppableDestination) => {
 
     if (droppableSource.droppableId !== 'droppable') {
-        source = source.combos;
+        source = source.groups;
     }
     if (droppableDestination.droppableId !== 'droppable') {
-        destination = destination.combos;
+        destination = destination.groups;
     }
 
     const sourceClone = Array.from(source);
@@ -46,26 +46,17 @@ const move = (source, destination, droppableSource, droppableDestination) => {
         sourceClone.push(removed);
     }
 
-    if (destClone.filter((combo) => (
-            removed.bevcat === combo.bevcat && 
-            removed.brand === combo.brand && 
-            removed.packSize === combo.packSize && 
-            removed.packType === combo.packType
+    if (destClone.filter(group => (
+            removed.id === group.id
         )).length === 0 && 
         droppableSource.droppableId !== droppableDestination.droppableId) { 
         destClone.splice(droppableDestination.index, 0, removed);
-    } else if (destClone.filter((combo) => (
-        removed.bevcat === combo.bevcat && 
-        removed.brand === combo.brand && 
-        removed.packSize === combo.packSize && 
-        removed.packType === combo.packType
+    } else if (destClone.filter(group => (
+        removed.id === group.id
     )).length > 0 && 
     droppableSource.droppableId !== droppableDestination.droppableId) {
-        let oldIndex = destClone.findIndex(combo => (
-            removed.bevcat === combo.bevcat && 
-            removed.brand === combo.brand && 
-            removed.packSize === combo.packSize && 
-            removed.packType === combo.packType));
+        let oldIndex = destClone.findIndex(group => (
+            removed.id === group.id));
         destClone.splice(oldIndex, 1);
         destClone.splice(droppableDestination.index, 0, removed);
     }
@@ -101,30 +92,37 @@ const getListStyle = isDraggingOver => ({
 });
 
 
-const Grouping = () => {
+const Rvcodes = () => {
 
-    const [combos, setCombos] = useState([]);
-    const [fullCombosCopy, setFullCombosCopy] = useState([]);
-    const [gotCombos, setGotCombos] = useState(false);
     const [gotGroups, setGotGroups] = useState(false);
     const [saveError, setSaveError] = useState(false);
-    const [priorityModalShow, setPriorityModalShow] = useState(false);
     const [changesMade, setChangesMade] = useState(false);
+    const [groups, setGroups] = useState([]);
 
-    const [groups, setGroups] = useState(
-        [
-            {
-                'name': 'New-Group',
-                'combos': [],
-                'rename': false,
-                'id': new Date().getTime().toString()
-            }
-        ]
-    );
+    const [rvcs, setRvcs] = useState([
+        {
+            'name': 'RVC',
+            'groups': [],
+            'rename': false
+        }
+    ]);
 
-    const saveGroupChanges = (groups) => {
+    const createNewRvc = () => {
+        let rvcCopy = Array.from(rvcs);
+        
+        rvcCopy.unshift({
+            'name': 'RVC',
+            'groups': []
+        });
 
-        if (groups.filter((group) => group.name === '' || group.name === ' ' || group.rename).length > 0) {
+        setRvcs(rvcCopy);
+        setChangesMade(true);
+    };
+
+
+    const saveRvcChanges = (rvcs) => {
+
+        if (rvcs.filter((rvc) => rvc.name === '' || rvc.name === ' ' || rvc.rename).length > 0) {
             setSaveError(true);
             return;
         }
@@ -133,65 +131,43 @@ const Grouping = () => {
         setChangesMade(false);
     };
 
-    const createNewGroup = () => {
-        let groupCopy = Array.from(groups);
-        
-        groupCopy.unshift({
-            'name': 'New-Group',
-            'combos': [],
-            'rename': false,
-            'id': new Date().getTime().toString()
-        });
 
-        setGroups(groupCopy);
-        setChangesMade(true);
-    };
+    const deleteRvc = (i) => {
+        let rvcsCopy = Array.from(rvcs);
+        rvcsCopy.splice(i, 1);
 
-
-    const deleteGroup = (i) => {
-        let groupCopy = Array.from(groups);
-        groupCopy.splice(i, 1);
-
-        setGroups(groupCopy);
+        setRvcs(rvcsCopy);
         setChangesMade(true);
     } 
 
-    const renameGroup = (newName, groupIndex) => {
+    const renameRvc = (newName, index) => {
         if (newName === '') {
             return;
         }
-        let groupCopy = Array.from(groups);
-        groupCopy[groupIndex].name = newName;
-        groupCopy[groupIndex].rename = false;
-        setGroups(groupCopy);
+
+        let rvcCopy = Array.from(rvcs);
+
+        rvcCopy[index].name = newName;
+        rvcCopy[index].rename = false;
+        setRvcs(rvcCopy);
         setChangesMade(true);
     }
 
-    const startEditGroupName = (groupIndex) => {
-        let groupCopy = Array.from(groups);
+    const startEditRvcName = (i) => {
+        let rvcsCopy = Array.from(rvcs);
 
-        groupCopy[groupIndex].name = '';
-        groupCopy[groupIndex].rename = true;
+        rvcsCopy[i].name = '';
+        rvcsCopy[i].rename = true;
 
-        setGroups(groupCopy); 
+        setRvcs(rvcsCopy); 
         setChangesMade(true);   
     }
 
-    if (!gotCombos) {
-        ipcRenderer.send('get-combos');
-        setGotCombos(true);
-    }
 
     if (!gotGroups) {
         ipcRenderer.send('get-groupings');
         setGotGroups(true);
     }
-
-
-    // Now listen for the combos
-    ipcRenderer.on('combos', (event, {combos}) => {
-        setCombos(combos);
-    });
 
     // Now listen for group changes
     ipcRenderer.on('groups', (event, {groupings}) => {
@@ -199,30 +175,7 @@ const Grouping = () => {
     });
 
 
-    const filterComboList = (event) => {
-
-        const criteria = event.target.value.toLowerCase();
-
-        if (criteria === '' || criteria === ' ') {
-            ipcRenderer.send('get-combos');
-            return;
-        }
-
-        let combosCopy = combos.length >= fullCombosCopy.length ? Array.from(combos) : Array.from(fullCombosCopy);
-        let fullComboCopy = combos.length >= fullCombosCopy.length ? Array.from(combos) : Array.from(fullCombosCopy);
-
-        combosCopy = combosCopy.filter(combo => combo.description.toLowerCase().includes(criteria) || 
-            combo.packSize.toLowerCase().includes(criteria) || 
-            combo.packType.toLowerCase().includes(criteria) || 
-            combo.bevcat.toLowerCase().includes(criteria) || 
-            combo.brand.toLowerCase().includes(criteria));
-
-            setCombos(combosCopy);
-            setFullCombosCopy(fullComboCopy);
-    }
-
-
-    const getList = id => id === 'droppable' ? combos : groups[parseInt(id.match(/\d+/g)[0])] || [];
+    const getList = id => id === 'droppable' ? groups : rvcs[parseInt(id.match(/\d+/g)[0])] || [];
 
     const onDragEnd = result => {
         let { source, destination } = result;
@@ -240,11 +193,11 @@ const Grouping = () => {
             );
 
             if (source.droppableId === 'droppable') {
-                setCombos(items);
+                setGroups(items);
             } else {
                 let dropperIndex = parseInt(destination.droppableId.match(/\d+/g)[0]);
-                groups[dropperIndex].combos = items || [];
-                setGroups(groups);
+                rvcs[dropperIndex].groups = items || [];
+                setRvcs(rvcs);
                 setChangesMade(true);
             }
         } else {
@@ -259,42 +212,35 @@ const Grouping = () => {
             if (source.droppableId === 'droppable') {
 
                 let dropperIndex = parseInt(destination.droppableId.match(/\d+/g)[0]);
-                groups[dropperIndex].combos = result[destination.droppableId] || [];
-                setCombos(result[source.droppableId]);
+                rvcs[dropperIndex].groups = result[destination.droppableId] || [];
+                setGroups(result[source.droppableId]);
 
             } else if (destination.droppableId === 'droppable') {
 
                 let dropperIndex = parseInt(source.droppableId.match(/\d+/g)[0]);
-                groups[dropperIndex].combos = result[source.droppableId] || [];
-                setCombos(result[destination.droppableId]);
+                rvcs[dropperIndex].groups = result[source.droppableId] || [];
+                setRvcs(result[destination.droppableId]);
 
             } else {
 
                 let dropper1Index = parseInt(source.droppableId.match(/\d+/g)[0]);
-                groups[dropper1Index].combos = result[source.droppableId] || [];
+                rvcs[dropper1Index].groups = result[source.droppableId] || [];
 
                 let dropper2Index = parseInt(destination.droppableId.match(/\d+/g)[0]);
-                groups[dropper2Index].combos = result[destination.droppableId] || [];
+                rvcs[dropper2Index].groups = result[destination.droppableId] || [];
 
             }
-            setGroups(groups);
+            setRvcs(rvcs);
             setChangesMade(true);
         }
     };
 
     return (
         <>
-            <GroupingModal show={priorityModalShow} 
-                           onHide={() => setPriorityModalShow(false)}
-                           groups={groups}
-                           setGroups={setGroups}
-                           setChangesMade={setChangesMade}/>
             <Pad25>
-                <Button variant="outline-success" onClick={createNewGroup}>{Strings.createNewGroup}</Button>
+                <Button variant="outline-success" onClick={createNewRvc}>{Strings.createNewGroup}</Button>
                 <Spacing/>
-                <Button variant="outline-light" onClick={() => setPriorityModalShow(true)}>{Strings.showPriorityModal}</Button>
-                <Spacing/>
-                <Button variant="outline-primary" onClick={() => saveGroupChanges(groups)}>{Strings.saveChanges} {changesMade && <CircleFill size={8}/>}</Button>
+                <Button variant="outline-primary" onClick={() => saveRvcChanges(rvcs)}>{Strings.saveChanges} {changesMade && <CircleFill size={8}/>}</Button>
                 <Spacing/>
                 <HAccordion title={Strings.accordionTitle} body={Strings.accordionBody}/>
             </Pad25>
@@ -312,16 +258,13 @@ const Grouping = () => {
                 <FlexOnYou>
                     {/* Here's our main list. This will hold all items in the beginning! */}
                     <div className={'main-groupings'}>
-                        <h4>{Strings.allPackageCombos} ({combos.length})</h4>
-                        <Mg25 className="input-group">
-                            <input id="filteredInput" type="text" className="form-control" placeholder="Filter" onChange={filterComboList}/>
-                        </Mg25>
+                        <h4>{Strings.allGroupings} ({groups.length})</h4>
                         <Droppable droppableId="droppable">
                             {(provided, snapshot) => (
                                 <div
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}>
-                                    {combos.map((item, index) => (
+                                    {groups.map((item, index) => (
                                         <DraggableCard parentId={`droppable`} item={item} index={index} getItemStyle={getItemStyle} showTable/>
                                     ))}
                                     {provided.placeholder}
@@ -330,29 +273,29 @@ const Grouping = () => {
                         </Droppable>
                     </div>
                     <Flex>
-                        {groups.map((group, i) => {
+                        {rvcs.map((rvc, i) => {
                             return (
                                 <Mg4All>
                                     <FlexApart className={'group-header'}>
-                                        <input type={groups[i].rename ? 'text' : 'hidden'} className={'title-input'} defaultValue='' placeholder={'Edit Group Name'} id={`droppable-title-${i}`}/>
-                                        { !groups[i].rename &&
+                                        <input type={rvcs[i].rename ? 'text' : 'hidden'} className={'title-input'} defaultValue='' placeholder={'Edit RVC Name'} id={`droppable-title-${i}`}/>
+                                        { !rvcs[i].rename &&
                                             <h4>
-                                                {group.name}
+                                                {rvc.name}
                                             </h4>
                                         }  
                                         <FlexApart className={'icon-group-header'}>
-                                            { groups[i].rename ?
-                                                <div className={'icon-group-items-no-spin'} onClick={() => renameGroup(document.getElementById(`droppable-title-${i}`).value, i)}>
+                                            { rvcs[i].rename ?
+                                                <div className={'icon-group-items-no-spin'} onClick={() => renameRvc(document.getElementById(`droppable-title-${i}`).value, i)}>
                                                     <Check  size={32}/>
                                                 </div>
                                             :
-                                                <div className={'icon-group-items'} onClick={() => { startEditGroupName(i); document.getElementById(`droppable-title-${i}`).focus();}}>
+                                                <div className={'icon-group-items'} onClick={() => { startEditRvcName(i); document.getElementById(`droppable-title-${i}`).focus();}}>
                                                     <Pencil  size={24}/>
                                                 </div>
                                             }
 
-                                            { groups.length !== 1 && 
-                                                (<div className={'icon-group-items-no-spin-regular'} onClick={() => deleteGroup(i)}>
+                                            { rvcs.length !== 1 && 
+                                                (<div className={'icon-group-items-no-spin-regular'} onClick={() => deleteRvc(i)}>
                                                     <Trash size={24}/>
                                                 </div>)
                                             }
@@ -364,7 +307,7 @@ const Grouping = () => {
                                                 className="list-sizing"
                                                 ref={provided.innerRef}
                                                 style={getListStyle(snapshot.isDraggingOver)}>
-                                                {group.combos.map((item, index) => (
+                                                {rvc.groups.map((item, index) => (
                                                     <DraggableCard item={item} parentId={`droppable${i}`} index={index} getItemStyle={getItemStyle}/>
                                                 ))}
                                                 {provided.placeholder}
@@ -382,5 +325,5 @@ const Grouping = () => {
 }
 // Put the thing into the DOM!
 
-export default Grouping;
+export default Rvcodes;
 

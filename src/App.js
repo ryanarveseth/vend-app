@@ -7,6 +7,7 @@ import ComboView from './components/ComboView';
 import AppNav from './components/AppNav';
 import Groupings from './components/Groupings';
 import Home from './components/Home';
+import Rvcodes from './components/Rvcodes';
 
 const App = () => {
   
@@ -35,15 +36,15 @@ const App = () => {
       <AppNav handleNavChange={handleNavChange}/>
       <AppHeader/>
       
-      { navigation && navigation.showMainPage && (<Home/>) }
+      { navigation && navigation.showMainPage && <Home/> }
       
       { navigation && navigation.showCombination && (<><NewCombination/><ComboView/></>) }
 
       { navigation && navigation.showGroupings && <Groupings/> }
 
-      {/* { navigation && navigation.showRvcPage && (<><NewCombination/>RVC<ComboView/></>) }
+      { navigation && navigation.showRvcPage && <Rvcodes/> }
 
-      { navigation && navigation.createLoadTemplatePage && (<><NewCombination/>Load Templates<ComboView/></>) } */}
+      {/* { navigation && navigation.createLoadTemplatePage && (<><NewCombination/>Load Templates<ComboView/></>) } */}
 
       <AppFooter/>
     </div>

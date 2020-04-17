@@ -152,7 +152,7 @@ body {
 }
 
 .list-sizing {
-  min-height: 70px;
+  min-height: 65px;
   padding-bottom: 8px;
   min-width: 306px;
   margin: 10px;
@@ -239,7 +239,7 @@ body {
   margin-bottom: auto;
   height: auto;
   width: auto;
-  color: white;
+  color: crimson;
 }
 
 
@@ -287,9 +287,53 @@ body {
   color: black;
 }
 
-.groupIsHovered {
-  background: rgb(170,0,0);
+
+
+.group-is-hovered {
+  transition: .5s;
+  background: rgb(170,0,0) !important;
 }
 .price-entered {
-  background: rgb(100,0,0);
+  transition: .5s;
+  background: rgb(100,0,0) !important;
+}
+
+.pricing-table {
+  transition: .5s;
+}
+
+.data-grid-container .data-grid .cell {
+  height: 25px !important;
+  width: 179px !important;
+  text-align: center !important;
+}
+
+.data-grid-container .data-grid .cell > input{
+  height: 25px !important;
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.read-only { 
+  color: black !important;
+  font-weight: bolder !important;
+}
+.table-sm td {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.pricing-table td {
+  padding: 0 !important;
+  vertical-align: middle;
+}
+
+.pricing-table .padded {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+.data-grid {
+  margin-left: auto;
+  margin-right: auto;
 }
